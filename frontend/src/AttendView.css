@@ -1,0 +1,58 @@
+/* Attendance page: only what the enrollment stylesheet doesn't already cover.
+   Everything else (.enroll, .en-nav, .en-title, .en-panel, .en-meter, ...) is reused. */
+
+/* "Marked today" list: floats on the left, under the headline, above the hint text */
+.at-log {
+  position: absolute; z-index: 2; left: 28px; bottom: calc(5vh + 64px);
+  width: min(340px, 26vw); max-height: min(34vh, 280px);
+  display: flex; flex-direction: column;
+  padding: 12px 14px; border-radius: 14px;
+  background: rgba(8, 14, 50, 0.45); border: 1px solid rgba(120, 150, 255, 0.22);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.at-log h2 {
+  display: flex; justify-content: space-between; margin: 0 0 6px;
+  font: 400 11px var(--mono); letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+.at-log h2 span { color: #9db4ff; font-variant-numeric: tabular-nums; }
+.at-empty { margin: 4px 0 2px; font: 400 12px/1.5 var(--mono); letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.5); }
+
+.at-rows {
+  list-style: none; margin: 0; padding: 0; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: rgba(120, 150, 255, 0.4) transparent;
+}
+.at-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.at-row:first-child { border-top: 0; }
+
+.at-av {
+  flex: none; width: 30px; height: 30px; border-radius: 50%;
+  display: grid; place-items: center;
+  font: 400 11px var(--mono); color: #9db4ff;
+  border: 1px solid rgba(120, 150, 255, 0.4); background: rgba(40, 70, 200, 0.18);
+}
+.at-who { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.at-who b, .at-last b { font: 400 14px "Space Grotesk", sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.at-who small { font: 400 10px var(--mono); letter-spacing: 0.06em; color: rgba(255, 255, 255, 0.5); }
+.at-row time, .at-last time {
+  flex: none; font: 400 11px var(--mono); letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.6); font-variant-numeric: tabular-nums;
+}
+
+/* "Last marked" box inside the glass panel (same footprint as the staff select on the enroll page) */
+.en-panel .at-label {
+  margin: 4px 0 0; color: rgba(255, 255, 255, 0.7);
+  font: 400 11px var(--mono); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.at-last {
+  display: flex; align-items: center; gap: 10px; min-height: 42px; padding: 0 12px; border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.at-last b { flex: 1; min-width: 0; }
+.at-last .at-av { width: 24px; height: 24px; font-size: 10px; }
+.at-none { font: 400 13px var(--mono); letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.5); }
+
+/* mobile: the list drops into the stacked content, between the headline and the panel */
+@media (max-width: 860px) {
+  .at-log { position: static; width: auto; max-width: 480px; max-height: 220px; }
+}

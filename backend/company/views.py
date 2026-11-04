@@ -38,8 +38,6 @@ def staff_login(request):
     email = (data.get("email") or "").strip().lower()
     password = data.get("password") or ""
     host = _host(data.get("link")) or request.get_host().split(":")[0].lower()
-
-    # Brute-force guard: per IP + company + email
     key = f"login-fail:{request.META.get('REMOTE_ADDR', '')}:{host}:{email}"
     if cache.get(key, 0) >= MAX_FAILS:
         return JsonResponse(
@@ -55,7 +53,6 @@ def staff_login(request):
 
     if not (admin and admin.check_password(password)):
         cache.set(key, cache.get(key, 0) + 1, LOCK_SECONDS)
-        # One generic message so nobody can tell which part was wrong
         return JsonResponse(
             {"status": "error", "message": "Link, email or password did not match."},
             status=401,

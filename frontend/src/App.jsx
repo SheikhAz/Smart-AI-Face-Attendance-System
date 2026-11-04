@@ -3,6 +3,7 @@ import { api } from "./api";
 import LoginScene from "./LoginScene";
 import Home from "./Home";
 import EnrollView from "./EnrollView";
+import AttendView from "./AttendView";
 const TARGET = 10;
 
 /* ───────── HELPERS ───────── */
@@ -14,15 +15,6 @@ function grab(v) {
   c.getContext("2d").drawImage(v, 0, 0);
   return c.toDataURL("image/jpeg", 0.85);
 }
-
-const initials = (name = "") =>
-  name
-    .split(" ")
-    .filter(Boolean)
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase() || "–";
 
 const Arrow = () => (
   <svg
@@ -91,8 +83,6 @@ function Login({ onLogin, notice }) {
   const [f, setF] = useState({ link: "", email: "", password: "" });
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
-  // The panel starts hidden behind the GET START button. A pending notice
-  // (e.g. "session expired") opens it straight away so it is never missed.
   const [open, setOpen] = useState(Boolean(notice));
   const startRef = useRef(null);
   const linkRef = useRef(null);
@@ -100,7 +90,6 @@ function Login({ onLogin, notice }) {
 
   function openPanel() {
     setOpen(true);
-    // On touch devices skip auto-focus so the keyboard doesn't jump in mid-animation.
     if (!window.matchMedia("(pointer: coarse)").matches)
       requestAnimationFrame(() => linkRef.current?.focus({ preventScroll: true }));
   }
@@ -124,7 +113,7 @@ function Login({ onLogin, notice }) {
     let link = f.link.trim();
     if (!/^https?:\/\//.test(link)) {
       const local = /^(localhost|127\.0\.0\.1|192\.168\.|10\.)/.test(link);
-      link = (local ? "http://" : "https://") + link;
+      link = ("http://") + link;
     }
     try {
       const d = await api({ link }, "/api/staff-login/", {
@@ -379,16 +368,12 @@ function Attend({ cfg, back }) {
   }, [on]);
 
   return (
-    <div className="page">
-      <button className="btn quiet back" onClick={back}>
-        ← Back
-      </button>
-      <p className="eyebrow">Live</p>
-      <h1 className="display sm">
-        Today's <em>attendance</em>
-      </h1>
-
-      <div className="stage">
+    <AttendView
+      back={back}
+      on={on}
+      onToggle={() => setOn((v) => !v)}
+      log={log}
+      cam={
         <Camera
           active={on}
           demo={cfg.demo}
@@ -397,38 +382,8 @@ function Attend({ cfg, back }) {
         >
           {last && on && <div className="cam-chip">{last.name}</div>}
         </Camera>
-
-        <aside className="panel">
-          <div className="meter">
-            <span className="figure">{log.length}</span>
-            <span className="of">present today</span>
-          </div>
-
-          <button
-            className={"btn full " + (on ? "outline" : "primary")}
-            onClick={() => setOn(!on)}
-          >
-            {on ? "Stop scanner" : "Start scanner"}
-          </button>
-
-          <div className="log">
-            {log.length === 0 && (
-              <div className="empty">No one has been marked yet.</div>
-            )}
-            {log.map((r, i) => (
-              <div className="row" key={i}>
-                <span className="avatar">{initials(r.name)}</span>
-                <span className="who">
-                  <b>{r.name}</b>
-                  <small>{r.unique_id}</small>
-                </span>
-                <time>{r.t}</time>
-              </div>
-            ))}
-          </div>
-        </aside>
-      </div>
-    </div>
+      }
+    />
   );
 }
 

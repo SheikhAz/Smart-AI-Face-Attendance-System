@@ -1,5 +1,3 @@
-// src/api.js — browser API helper. Uses a Bearer token only; INTERNAL_API_KEY never appears here.
-
 export class ApiError extends Error {
   constructor(message, { status = 0, code = "", data = null } = {}) {
     super(message);
@@ -37,13 +35,6 @@ async function demoApi(path) {
   }
   return {};
 }
-
-/**
- * cfg: { demo?, link, token?, company_id?, onAuthError? }
- * body undefined -> GET, otherwise POST with JSON.
- * Throws ApiError on network failure, non-JSON response, or non-2xx status.
- * A 401 on an authenticated request also calls cfg.onAuthError (expired/invalid token).
- */
 export async function api(cfg, path, body) {
   if (cfg.demo) return demoApi(path);
 

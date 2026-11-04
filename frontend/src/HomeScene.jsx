@@ -252,18 +252,44 @@ export default function HomeScene() {
     const rnd = new Float32Array(N * 3);
     const tone = new Float32Array(N);
     for (let i = 0; i < N; i++) {
-      const x = (Math.random() * 2 - 1) * 17;
-      const z = -22 + 26.5 * Math.pow(Math.random(), 0.75);
-      off.set([x, hill(x, z), z], i * 3);
       rnd.set([0.5 + Math.random() * 0.55, Math.random() * 6.283, Math.random() * 3.14], i * 3);
       tone[i] = Math.random();
     }
+    const offAttr = new THREE.InstancedBufferAttribute(off, 3);
+
+    /* Positions depend on the camera. Desktop keeps the original wide field. On mobile
+      the grass runs from far away right up to the camera (so it reaches the bottom
+      edge) and only fills the width the camera can actually see at each depth. */
+    let scatteredMobile = null;
+    let scatteredAspect = 0;
+    const scatterGrass = (mobile, aspect) => {
+      if (!mobile) {
+        for (let i = 0; i < N; i++) {
+          const x = (Math.random() * 2 - 1) * 17;
+          const z = -22 + 26.5 * Math.pow(Math.random(), 0.75);
+          off.set([x, hill(x, z), z], i * 3);
+        }
+      } else {
+        const camZ = 8.5;
+        const tanH = Math.tan(THREE.MathUtils.degToRad(31)) * aspect; // half-fov is 62/2
+        const dNear = 1.5;        // z = 7: just past the bottom edge of the screen
+        const dFar = camZ + 22;   // z = -22
+        for (let i = 0; i < N; i++) {
+          const d = dNear + (dFar - dNear) * Math.pow(Math.random(), 0.7);
+          const z = camZ - d;
+          const halfW = Math.min(17, d * tanH + 1.3); // visible width + margin for lean/wind
+          const x = (Math.random() * 2 - 1) * halfW;
+          off.set([x, hill(x, z), z], i * 3);
+        }
+      }
+      offAttr.needsUpdate = true;
+    };
     const base = new THREE.PlaneGeometry(1, 1, 1, 5);
     base.translate(0, 0.5, 0);
     const grassGeo = new THREE.InstancedBufferGeometry();
     grassGeo.index = base.index;
     grassGeo.setAttribute("position", base.attributes.position);
-    grassGeo.setAttribute("aOffset", new THREE.InstancedBufferAttribute(off, 3));
+    grassGeo.setAttribute("aOffset", offAttr);
     grassGeo.setAttribute("aRand", new THREE.InstancedBufferAttribute(rnd, 3));
     grassGeo.setAttribute("aTone", new THREE.InstancedBufferAttribute(tone, 1));
     grassGeo.instanceCount = N;
@@ -349,6 +375,11 @@ export default function HomeScene() {
       camera.lookAt(0, ly, 0);
       camera.updateProjectionMatrix();
       tv.scale.setScalar(mobile ? 1.2 : 1);
+      if (scatteredMobile !== mobile || (mobile && camera.aspect > scatteredAspect)) {
+        scatteredMobile = mobile;
+        scatteredAspect = camera.aspect * 1.25; // headroom so small resizes (URL bar) don't re-scatter
+        scatterGrass(mobile, scatteredAspect);
+      }
 
       const pitch = Math.atan2(ly - cy, cz);
       const horizon = 0.5 - (0.5 * Math.tan(pitch)) / Math.tan(THREE.MathUtils.degToRad(fov / 2));
