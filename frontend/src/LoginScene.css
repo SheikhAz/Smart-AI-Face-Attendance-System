@@ -1,0 +1,107 @@
+/* Import AFTER App.css so these overrides win on equal specificity */
+
+.auth.auth--scene {
+  position: relative;
+  display: block;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  color: #fff;
+  /* shown only if WebGL is unavailable */
+  background: linear-gradient(#2f46d6, #8a6fd8 55%, #ffb8a0);
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+
+/* headline column sits on top of the scene, top-left */
+.auth--scene .auth-art {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 1;
+  width: min(46vw, 620px);
+  padding: 32px 4vw;
+  background: transparent;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8vh;
+  color: #fff;
+}
+.auth--scene .auth-art small {
+  margin-top: auto;
+  opacity: 0.7;
+}
+
+/* glass sign-in card */
+.auth--scene .auth-form {
+  position: absolute;
+  z-index: 2;
+  right: 6vw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(420px, 88vw);
+  padding: 32px;
+  border-radius: 20px;
+  background: rgba(12, 16, 40, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  color: #fff;
+}
+.auth--scene .auth-form .title,
+.auth--scene .auth-form label {
+  color: #fff;
+}
+.auth--scene .auth-form .muted,
+.auth--scene .auth-form .eyebrow {
+  color: rgba(255, 255, 255, 0.72);
+}
+.auth--scene .auth-form input {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+.auth--scene .auth-form input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+.auth--scene .auth-form input:focus-visible {
+  outline: 2px solid #ffd58a;
+  outline-offset: 2px;
+}
+.auth--scene .auth-form .btn.primary {
+  background: #f3ece0;
+  color: #141414;
+}
+.auth--scene .auth-form .text-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* mobile: TV + hill + clouds up top, card docked at the bottom */
+@media (max-width: 768px) {
+  .auth--scene .auth-art {
+    width: 100%;
+    padding: 20px;
+  }
+  .auth--scene .auth-art h1,
+  .auth--scene .auth-art .lede,
+  .auth--scene .auth-art small {
+    display: none;
+  }
+  .auth--scene .auth-form {
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: min(420px, 92vw);
+    padding: 22px;
+  }
+}

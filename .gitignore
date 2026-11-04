@@ -1,0 +1,7 @@
+.ai
+.vscode
+frontend/node_modules
+backend/.env
+backend/db.sqlite3
+*migrations
+*__pycache__

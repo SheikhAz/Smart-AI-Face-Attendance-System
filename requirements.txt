@@ -1,0 +1,12 @@
+deepface
+faiss-cpu
+numpy
+opencv-python
+requests
+pygame
+tf-keras
+django
+python-dotenv
+djangorestframework
+django-cors-headers
+werkzeug

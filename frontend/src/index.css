@@ -1,0 +1,580 @@
+/* index.css */
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+  --paper: #f5f3ee;
+  --surface: #fbfaf7;
+  --ink: #151513;
+  --ink-2: #3b3a36;
+  --mute: #7a786f;
+  --line: #e3e0d6;
+  --line-2: #d3cfc3;
+  --accent: #1f4a38;
+  --accent-soft: #e4ece6;
+  --danger: #a8321f;
+  --cam: #0e0e0d;
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  padding-top: env(safe-area-inset-top, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+h1, h2, h3, p { margin: 0; }
+button { font-family: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ───── Type ───── */
+.display {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(40px, 5.2vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+.display.sm { font-size: clamp(34px, 4vw, 48px); }
+.display em { font-style: italic; color: var(--accent); }
+.title { font-family: var(--serif); font-weight: 400; font-size: 34px; letter-spacing: -0.01em; line-height: 1.1; }
+.eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); margin-bottom: 14px; }
+.muted { color: var(--mute); }
+.lede { color: rgba(255,255,255,.62); font-size: 17px; max-width: 420px; margin-top: 22px; }
+
+/* ───── Brand ───── */
+.wordmark { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; letter-spacing: 0.01em; }
+.wordmark-mark {
+  width: 18px; height: 18px; border-radius: 5px;
+  background: var(--accent);
+  position: relative;
+}
+.wordmark-mark::after {
+  content: ""; position: absolute; inset: 5px; border-radius: 50%;
+  background: var(--paper);
+}
+.wordmark-logo { width: 28px; height: 28px; object-fit: contain; }
+
+/* ───── Buttons ───── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 44px; padding: 0 20px;
+  border-radius: 10px; border: 1px solid transparent;
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: background .18s, border-color .18s, color .18s, transform .18s;
+}
+.btn.full { width: 100%; }
+.btn.primary { background: var(--ink); color: #fff; }
+.btn.primary:hover:not(:disabled) { background: #2a2a27; }
+.btn.outline { background: transparent; border-color: var(--line-2); color: var(--ink); }
+.btn.outline:hover { border-color: var(--ink); }
+.btn.quiet { height: 36px; padding: 0 12px; background: transparent; color: var(--ink-2); }
+.btn.quiet:hover { background: rgba(21,21,19,.06); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.text-link {
+  display: block; margin: 18px auto 0; background: none; border: 0; padding: 0;
+  color: var(--ink-2); font-size: 13px; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-2);
+}
+.text-link:hover { text-decoration-color: var(--ink); }
+
+/* ───── Form ───── */
+label { display: block; font-size: 13px; font-weight: 500; color: var(--ink-2); margin: 20px 0 8px; }
+input, select {
+  width: 100%; height: 46px; padding: 0 14px;
+  border-radius: 10px; border: 1px solid var(--line-2);
+  background: var(--surface); color: var(--ink);
+  font: 15px var(--sans); outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+input::placeholder { color: #aaa79b; }
+input:focus, select:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(21,21,19,.07); }
+select { appearance: none; padding-right: 38px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%237a786f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; }
+select:disabled { opacity: .6; cursor: not-allowed; }
+.notice {
+  margin: 18px 0 4px; padding: 11px 14px; border-radius: 10px;
+  border: 1px solid #e4c3bb; background: #f8ece9; color: var(--danger); font-size: 13px;
+}
+form .btn.primary { margin-top: 26px; }
+
+/* ───── Auth ───── */
+.auth { min-height: 100vh; display: grid; grid-template-columns: 1.05fr 1fr; }
+.auth-art {
+  background: #121211; color: #fff;
+  padding: 40px 56px; display: flex; flex-direction: column; justify-content: space-between;
+}
+.auth-art .wordmark-mark { background: #fff; }
+.auth-art .wordmark-mark::after { background: #121211; }
+.auth-art .display em { color: #9cc9b3; }
+.auth-art small { color: rgba(255,255,255,.4); font-size: 12px; }
+.auth-form { display: grid; place-items: center; padding: 40px 28px; }
+.auth-form form { width: 100%; max-width: 380px; }
+.auth-form .muted { margin-top: 10px; }
+
+/* ───── Page shell ───── */
+.page { max-width: 1040px; margin: 0 auto; padding: 28px 24px 72px; }
+.nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding-bottom: 22px; border-bottom: 1px solid var(--line); margin-bottom: 64px; }
+.nav-right { display: flex; align-items: center; gap: 8px; }
+.chip { font-size: 13px; color: var(--ink-2); padding: 6px 12px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); }
+.hero { margin-bottom: 44px; }
+.back { margin: 0 0 40px -12px; }
+
+/* ───── Home actions ───── */
+.actions { border-top: 1px solid var(--ink); }
+.action {
+  width: 100%; display: grid; grid-template-columns: 72px 1fr 44px; align-items: center; gap: 16px;
+  padding: 30px 8px; text-align: left; cursor: pointer;
+  background: transparent; border: 0; border-bottom: 1px solid var(--line-2); color: var(--ink);
+  transition: background .2s, padding .2s;
+}
+.action:hover { background: var(--surface); padding-left: 20px; padding-right: 20px; }
+.action-no { font-family: var(--serif); font-size: 28px; color: var(--mute); }
+.action-body { display: flex; flex-direction: column; gap: 6px; }
+.action-body strong { font-family: var(--serif); font-weight: 400; font-size: 30px; letter-spacing: -0.01em; line-height: 1.1; }
+.action-body span { color: var(--mute); font-size: 15px; max-width: 520px; }
+.action-go {
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-2);
+  display: grid; place-items: center; transition: background .2s, color .2s, border-color .2s;
+}
+.action:hover .action-go { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+/* ───── Stage ───── */
+.stage { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 28px; margin-top: 40px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 16px; }
+
+.meter { display: flex; align-items: baseline; gap: 10px; margin-top: 8px; }
+.figure { font-family: var(--serif); font-size: 64px; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.of { color: var(--mute); font-size: 14px; }
+.ticks { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+.ticks i { height: 4px; border-radius: 2px; background: var(--line); transition: background .3s; }
+.ticks i.on { background: var(--accent); }
+.hint { font-size: 14px; min-height: 42px; }
+
+/* ───── Camera ───── */
+.cam { position: relative; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: var(--cam); }
+.cam video, .cam-demo { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
+.cam-demo { background: radial-gradient(circle at 50% 42%, #2a2a27, #0e0e0d 72%); }
+.cam-off {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  color: rgba(255,255,255,.35); font-size: 13px; letter-spacing: .08em;
+}
+.mark { position: absolute; width: 18px; height: 18px; border: 1.5px solid rgba(255,255,255,.7); }
+.mark.tl { top: 16px; left: 16px; border-right: 0; border-bottom: 0; }
+.mark.tr { top: 16px; right: 16px; border-left: 0; border-bottom: 0; }
+.mark.bl { bottom: 16px; left: 16px; border-right: 0; border-top: 0; }
+.mark.br { bottom: 16px; right: 16px; border-left: 0; border-top: 0; }
+.cam-guide {
+  position: absolute; left: 50%; top: 50%; width: 38%; aspect-ratio: 3 / 4;
+  transform: translate(-50%, -50%); border: 1px solid rgba(255,255,255,.45); border-radius: 50%;
+}
+.cam-line {
+  position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,.55);
+  animation: sweep 3.2s ease-in-out infinite alternate;
+}
+@keyframes sweep { from { top: 12%; } to { top: 88%; } }
+.cam-status {
+  position: absolute; left: 16px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; letter-spacing: .04em;
+  color: #fff; background: rgba(14,14,13,.7); backdrop-filter: blur(6px);
+}
+.cam-status i { width: 7px; height: 7px; border-radius: 50%; background: #8d8b82; }
+.cam-status.live i { background: #e5533d; animation: blink 1.4s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: .3; } }
+.cam-chip {
+  position: absolute; right: 16px; bottom: 16px; padding: 7px 14px; border-radius: 999px;
+  background: #fff; color: var(--ink); font-size: 13px; font-weight: 600;
+}
+
+/* ───── Log ───── */
+.log { display: flex; flex-direction: column; max-height: 320px; overflow: auto; border-top: 1px solid var(--line); margin-top: 4px; }
+.row { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-size: 12px; font-weight: 600; }
+.who { display: flex; flex-direction: column; line-height: 1.3; }
+.who b { font-weight: 500; font-size: 14px; }
+.who small { color: var(--mute); font-size: 12px; }
+.row time { color: var(--mute); font-size: 12px; font-variant-numeric: tabular-nums; }
+.empty { color: var(--mute); font-size: 14px; padding: 28px 0; text-align: center; }
+
+/* ───── Responsive ───── */
+@media (max-width: 860px) {
+  .auth { grid-template-columns: 1fr; }
+  .auth-art { padding: 28px 24px 36px; gap: 40px; }
+  .auth-art small { display: none; }
+  .stage { grid-template-columns: 1fr; }
+  .nav { margin-bottom: 40px; }
+}
+@media (max-width: 520px) {
+  .action { grid-template-columns: 40px 1fr 36px; gap: 10px; padding: 24px 4px; }
+  .action:hover { padding-left: 4px; padding-right: 4px; }
+  .action-body strong { font-size: 24px; }
+  .action-go { width: 36px; height: 36px; }
+  .page { padding: 20px 16px 56px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Login scene: three.js canvas, a glass GET START button, and a
+   sign-in panel that opens in the lower part of the screen.
+   Keep this block LAST so it wins over the base rules above.
+   The 860px breakpoint must match `mq` in LoginScene.jsx.
+   ═══════════════════════════════════════════════════════════════ */
+
+.auth.auth--scene {
+  position: fixed;            /* full-bleed: ignores body padding and the vh/svh mismatch */
+  inset: 0;
+  display: block;
+  min-height: 0;
+  overflow: hidden;
+  color: #fff;
+  /* shown only if WebGL is unavailable */
+  background: linear-gradient(#050b2e, #0e1b5c 55%, #2b3b96);
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+
+/* headline column: sits on top of the scene, top-left */
+.auth--scene .auth-art {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 1;
+  width: min(46vw, 620px);
+  padding: 32px 4vw;
+  background: transparent;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8vh;
+  color: #fff;
+}
+.auth--scene .auth-art .lede { color: rgba(255, 255, 255, 0.82); }
+.auth--scene .auth-art small {
+  margin-top: auto;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ───── GET START button (iOS-style glass pill) ───── */
+.auth--scene .start-dock {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: calc(clamp(32px, 7vh, 72px) + env(safe-area-inset-bottom, 0px));
+  bottom: calc(clamp(32px, 7svh, 72px) + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.auth--scene .start-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 232px;
+  height: 58px;
+  padding: 0 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.1));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    0 12px 32px rgba(3, 6, 30, 0.45);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  backdrop-filter: blur(18px) saturate(1.6);
+  color: #fff;
+  font: 600 14px/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.2s ease,
+    border-color 0.2s ease,
+    visibility 0s linear 0s;
+}
+.auth--scene .start-btn:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.14));
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.auth--scene .start-btn:active {
+  transform: scale(0.97);
+}
+.auth--scene .start-btn:focus-visible {
+  outline: 2px solid #ffd58a;
+  outline-offset: 3px;
+}
+/* button leaves when the panel opens */
+.auth--scene.is-open .start-btn {
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.35s;
+}
+
+/* ───── Sign-in panel ─────
+   .auth-form is an invisible zone over the lower part of the screen (the
+   grass area); the <form> inside it is the glass card, centred in that zone.
+   Only opacity + transform animate, so the open/close stays smooth. */
+.auth--scene .auth-form {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(300px, 48vh, 440px);
+  height: clamp(300px, 48svh, 440px);
+  padding: 0 clamp(16px, 4vw, 56px) env(safe-area-inset-bottom, 0px);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s linear 0.5s;
+}
+.auth--scene.is-open .auth-form {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.auth--scene .auth-form form {
+  position: relative;
+  pointer-events: auto;
+  width: min(980px, 100%);
+  max-width: none;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 24px 28px;
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 16px;
+  align-items: start;
+  background: rgba(12, 16, 40, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 24px 60px rgba(2, 4, 24, 0.45);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  color: #fff;
+  opacity: 0;
+  transform: translateY(28px) scale(0.97);
+  transition:
+    opacity 0.3s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+.auth--scene.is-open .auth-form form {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.4s ease 0.05s,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* heading row */
+.auth--scene .panel-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-right: 44px;        /* room for the close button */
+}
+.auth--scene .panel-head .eyebrow { margin-bottom: 6px; }
+.auth--scene .panel-head .title { font-size: 30px; }
+.auth--scene .panel-head .muted {
+  margin: 0 0 4px;
+  max-width: 34ch;
+  text-align: right;
+}
+
+.auth--scene .auth-form .title,
+.auth--scene .auth-form label {
+  color: #fff;
+}
+.auth--scene .auth-form label { margin: 0 0 6px; }
+.auth--scene .auth-form .muted,
+.auth--scene .auth-form .eyebrow {
+  color: rgba(255, 255, 255, 0.72);
+}
+.auth--scene .field { min-width: 0; }
+
+/* inputs and selects */
+.auth--scene .auth-form input,
+.auth--scene .auth-form select {
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+.auth--scene .auth-form input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+.auth--scene .auth-form input:focus,
+.auth--scene .auth-form select:focus {
+  border-color: rgba(255, 213, 138, 0.85);
+  box-shadow: none;
+}
+.auth--scene .auth-form select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23ffffff' stroke-opacity='.75' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+}
+.auth--scene .auth-form select option {
+  color: #141414;
+  background: #fff;
+}
+
+/* Chrome / Safari autofill paints a pale box; repaint it for the dark card */
+.auth--scene .auth-form input:-webkit-autofill,
+.auth--scene .auth-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fff;
+  caret-color: #fff;
+  box-shadow: 0 0 0 1000px #2a3170 inset;
+}
+
+/* error message, tinted for the dark card */
+.auth--scene .auth-form .notice {
+  grid-column: 1 / -1;
+  margin: 0;
+  background: rgba(168, 50, 31, 0.28);
+  border-color: rgba(255, 160, 140, 0.45);
+  color: #ffd9d1;
+}
+
+/* sign in + demo, centred below the fields */
+.auth--scene .panel-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.auth--scene .auth-form .panel-actions .btn.primary {
+  width: min(320px, 100%);
+  margin-top: 0;
+}
+.auth--scene .auth-form .panel-actions .text-link { margin: 0; }
+
+/* buttons and links */
+.auth--scene .auth-form .btn.primary {
+  background: #f3ece0;
+  color: #141414;
+}
+.auth--scene .auth-form .btn.primary:hover:not(:disabled) {
+  background: #fff;
+}
+.auth--scene .auth-form .btn.outline {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+.auth--scene .auth-form .btn.outline:hover {
+  border-color: #fff;
+}
+.auth--scene .auth-form .btn.quiet {
+  color: rgba(255, 255, 255, 0.85);
+}
+.auth--scene .auth-form .btn.quiet:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.auth--scene .auth-form .text-link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration-color: rgba(255, 255, 255, 0.35);
+}
+.auth--scene .auth-form .text-link:hover {
+  text-decoration-color: #fff;
+}
+
+/* close button */
+.auth--scene .panel-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+.auth--scene .panel-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+/* visible keyboard focus on everything interactive (the global green is too dark here) */
+.auth--scene .auth-form :is(input, select, .btn, .text-link, .panel-close):focus-visible {
+  outline: 2px solid #ffd58a;
+  outline-offset: 2px;
+}
+
+/* mobile: fields stack, panel docks at the bottom */
+@media (max-width: 860px) {
+  .auth--scene .auth-art {
+    width: 100%;
+    padding: max(20px, env(safe-area-inset-top)) 20px 20px;
+  }
+  .auth--scene .auth-art h1,
+  .auth--scene .auth-art .lede,
+  .auth--scene .auth-art small {
+    display: none;
+  }
+  .auth--scene .start-dock {
+    bottom: calc(max(28px, 5vh) + env(safe-area-inset-bottom, 0px));
+    bottom: calc(max(28px, 5svh) + env(safe-area-inset-bottom, 0px));
+  }
+  .auth--scene .auth-form {
+    height: auto;
+    padding: 0 16px max(16px, env(safe-area-inset-bottom));
+  }
+  .auth--scene .auth-form form {
+    grid-template-columns: 1fr;
+    width: min(420px, 100%);
+    max-height: calc(100vh - 32px);
+    max-height: calc(100svh - 32px);
+    padding: 22px;
+    /* lighter blur: cheaper over the animating canvas on low-end phones */
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    backdrop-filter: blur(10px) saturate(1.2);
+  }
+  .auth--scene .panel-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .auth--scene .panel-head .muted {
+    margin: 0;
+    max-width: none;
+    text-align: left;
+  }
+}
