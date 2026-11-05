@@ -1,10 +1,14 @@
-FROM python:3.11-slim
+FROM node:22
 
-WORKDIR /smart-ai-face-attendance
+WORKDIR /smart-face-attendance
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libglib2.0-0 \
+    python3 \
+    python3-venv \
+    python3-dev \
+    build-essential \
     libgl1 \
+    libglib2.0-0 \
     libsm6 \
     libxext6 \
     libxrender1 \
@@ -14,8 +18,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libportmidi0 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . .
+RUN python3 -m venv /opt/env
 
-RUN pip install --no-cache-dir -r requirements.txt
+ENV PATH="/opt/env/bin:$PATH"
 
-CMD [ "python","source/attendance.py" ]
+COPY backend/requirements.txt  ./backend/
+
+RUN cd backend && pip install --no-cache-dir -r requirements.txt
+
+COPY frontend/package*.json ./frontend/
+
+RUN cd frontend && npm install
+
+COPY backend/ ./backend/
+COPY frontend/ ./frontend/
+
+COPY docker/dev-entrypoint.sh /smart-face-attendance/dev-entrypoint.sh
+RUN chmod +x /smart-face-attendance/dev-entrypoint.sh
+
+EXPOSE 8000 5173
+
+CMD ["/smart-face-attendance/dev-entrypoint.sh"]
