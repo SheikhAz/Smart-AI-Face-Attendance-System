@@ -584,7 +584,5 @@ Contributions, suggestions, and bug reports are welcome.
 
 ## License
 
-Add a license file before inviting others to reuse, modify, or
-redistribute this project. Without an explicit license, public
-availability on GitHub does not automatically grant permission to reuse
-the source code.
+This project is licensed under the MIT License.
+See the [LICENSE](LICENSE) file for details.
