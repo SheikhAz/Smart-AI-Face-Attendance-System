@@ -291,9 +291,7 @@ Create a file named `backend.env` on your computer.
 Example:
 
 ```env
-SECRET_KEY=replace-with-your-own-secret-key
-DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
+INTERNAL_API_KEY=replace-with-your-internal-api-key
 ```
 
 This is only an example. Your actual environment file must contain all variables required by the Django settings and database configuration.
